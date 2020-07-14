@@ -117,9 +117,29 @@ namespace Messenger.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
-                Username = user.Username,
+                Username = user.FullName,
+                Phone = user.Phone,
+                ImageUrl = user.ImageUrl,
                 Token = tokenString
             });
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterModel model)
+        {
+            try
+            {
+                // create user
+                _userService.CreateUser(model);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         // DELETE: api/Users/5

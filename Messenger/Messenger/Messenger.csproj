@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200712114255_DbInit.cs" />
+    <Compile Remove="Migrations\20200712114255_DbInit.Designer.cs" />
+    <Compile Remove="Migrations\20200713110925_DbInit.cs" />
+    <Compile Remove="Migrations\20200713110925_DbInit.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 

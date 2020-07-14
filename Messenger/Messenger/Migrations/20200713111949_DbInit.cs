@@ -12,9 +12,12 @@ namespace Messenger.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
-                    Username = table.Column<string>(nullable: true),
-                    PasswordHash = table.Column<string>(nullable: true)
+                    Email = table.Column<string>(nullable: false),
+                    FullName = table.Column<string>(nullable: false),
+                    Phone = table.Column<string>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: false),
+                    PasswordSalt = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {
