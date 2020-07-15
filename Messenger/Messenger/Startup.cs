@@ -50,7 +50,7 @@ namespace Messenger
 
             //cấu hình jwt
             var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(appSettings.IsUser);
 
             services.AddAuthentication(x =>
             {

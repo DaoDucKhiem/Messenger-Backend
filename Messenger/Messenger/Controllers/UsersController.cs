@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
-using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +15,7 @@ using Messenger.Entities;
 using Messenger.Services;
 using Messenger.Models.Users;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace Messenger.Controllers
 {
@@ -99,16 +99,27 @@ namespace Messenger.Controllers
                 return BadRequest(new { message = "Email or password is incorrect" });
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var keySecret = Encoding.ASCII.GetBytes(_appSettings.IsUser);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim("userID", user.Id.ToString()),
+                    new Claim("userName", user.FullName),
+                    new Claim("userAvatar", user.ImageUrl.ToString()),
                 }),
+
+                //keyStringee
+                Issuer = _appSettings.IsUser,
+                //ngày hết hạn
                 Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+
+                //keySecretStringee = signature
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keySecret), SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
@@ -117,7 +128,7 @@ namespace Messenger.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
-                Username = user.FullName,
+                FullName = user.FullName,
                 Phone = user.Phone,
                 ImageUrl = user.ImageUrl,
                 Token = tokenString
