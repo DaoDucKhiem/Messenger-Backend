@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QMIh4/oNo+WXAQXdthmtUmzxEVsxrdj0P2Nj8u9JniSVDVmpmdbTjr93Z7Nw3kGjCj6MHWgOFViTOI/I6+xp6g==",
+  "dgSpecHash": "7A5xW6Q099TRXiIiI96tM2WOUVsG9djxmlZy5mUf7r+U9Ldd8q1to0hbp7DV/mhEGZuC3AmecJ4MaqAPwtcaEw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Oscar\\OneDrive\\Documents\\NetCore\\Messenger\\Messenger\\Messenger.csproj",
+  "projectFilePath": "C:\\Users\\Oscar\\OneDrive\\Documents\\NetCore\\Messenger-Backend\\Messenger\\Messenger\\Messenger.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Oscar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.5\\microsoft.aspnetcore.authentication.jwtbearer.3.1.5.nupkg.sha512",
     "C:\\Users\\Oscar\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

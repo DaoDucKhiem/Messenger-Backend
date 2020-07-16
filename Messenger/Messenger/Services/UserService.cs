@@ -68,7 +68,7 @@ namespace Messenger.Services
         {
             if (password == null) throw new ArgumentNullException("password");
             if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Password không thể trống hoặc chỉ chứa khoảng trắng.", "password");
-            if (passwordHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+            if (passwordHash.Length != 64) throw new ArgumentException("Chiều dài của password không chính xác (64 bytes).", "passwordHash");
 
             using var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt);
             var pass = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
@@ -91,10 +91,10 @@ namespace Messenger.Services
         public User CreateUser(RegisterModel user)
         {
             if (string.IsNullOrWhiteSpace(user.Password))
-                throw new AppException("Password is required");
+                throw new AppException("Password không thể bỏ trống");
 
             if (_context.Users.Any(x => x.Email == user.Email))
-                throw new AppException("Username \"" + user.Email + "\" is already taken");
+                throw new AppException("Email \"" + user.Email + "\" đã tồn tại");
 
             CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -118,7 +118,7 @@ namespace Messenger.Services
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Password không thể trống hoặc chỉ chứa khoảng trắng.", "password");
 
             // băm sử dụng thuật toán PBKDF2
             // thêm một chuỗi byte ngẫu nhiên vào mật khẩu của người dùng tránh trường hợp trùng email password

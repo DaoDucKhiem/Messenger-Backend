@@ -96,41 +96,37 @@ namespace Messenger.Controllers
             var user = _userService.Authenticate(model.Email, model.Password);
 
             if (user == null)
-                return BadRequest(new { message = "Email or password is incorrect" });
+                return BadRequest(new { message = "Email hoặc mật khẩu không chính xác!" });
 
+
+            // tạo token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var keySecret = Encoding.ASCII.GetBytes(_appSettings.IsUser);
-
+            var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim("userID", user.Id.ToString()),
-                    new Claim("userName", user.FullName),
-                    new Claim("userAvatar", user.ImageUrl.ToString()),
+                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                   new Claim("userId", user.Id.ToString()),
+                   new Claim("email", user.Email),
+                   new Claim("avatar", user.ImageUrl),
+                   new Claim("fullName", user.FullName),
                 }),
-
-                //keyStringee
                 Issuer = _appSettings.IsUser,
-                //ngày hết hạn
                 Expires = DateTime.UtcNow.AddDays(7),
-
-                //keySecretStringee = signature
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keySecret), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info and authentication token
             return Ok(new
             {
-                Id = user.Id,
-                Email = user.Email,
-                FullName = user.FullName,
-                Phone = user.Phone,
-                ImageUrl = user.ImageUrl,
+                user.Id,
+                user.Email,
+                user.FullName,
+                user.Phone,
+                user.ImageUrl,
                 Token = tokenString
             });
         }
@@ -142,13 +138,13 @@ namespace Messenger.Controllers
         {
             try
             {
-                // create user
+                //tạo account
                 _userService.CreateUser(model);
                 return Ok();
             }
             catch (AppException ex)
             {
-                // return error message if there was an exception
+                // trả về exception nếu lỗi
                 return BadRequest(new { message = ex.Message });
             }
         }
