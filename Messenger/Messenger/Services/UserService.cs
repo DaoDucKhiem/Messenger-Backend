@@ -13,7 +13,7 @@ namespace Messenger.Services
     public interface IUserService
     {
         User Authenticate(string email, string password);
-        IEnumerable<UserInfoModel> GetAll();
+        IEnumerable<User> GetAll();
         User GetUserById(Guid id);
         User CreateUser(RegisterModel model);
     }
@@ -50,9 +50,9 @@ namespace Messenger.Services
         /*
          * trả về tất cả user có trong bảng
          */
-        public IEnumerable<UserInfoModel> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            return View(await _context.Users.FromSql($"call storedProcedureName()").ToListAsync<UserInfoModel);
+            return _context.Users.ToList();
         }
 
         /*

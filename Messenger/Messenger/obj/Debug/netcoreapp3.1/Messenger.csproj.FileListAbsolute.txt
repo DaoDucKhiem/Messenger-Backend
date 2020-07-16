@@ -461,8 +461,6 @@ C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.csprojAssemblyReference.cache
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.AssemblyInfoInputs.cache
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.AssemblyInfo.cs
-C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.csproj.CoreCompileInputs.cache
-C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.RazorTargetAssemblyInfo.cache
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.csproj.CopyComplete
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\staticwebassets\Messenger.StaticWebAssets.Manifest.cache
@@ -470,3 +468,5 @@ C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.dll
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.pdb
 C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.genruntimeconfig.cache
+C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.csproj.CoreCompileInputs.cache
+C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.MvcApplicationPartsAssemblyInfo.cache

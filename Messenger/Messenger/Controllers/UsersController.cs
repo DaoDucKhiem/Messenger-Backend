@@ -20,7 +20,6 @@ using System.Security.Claims;
 namespace Messenger.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {

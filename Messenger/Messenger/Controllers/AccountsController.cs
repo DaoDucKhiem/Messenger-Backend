@@ -18,12 +18,12 @@ namespace Messenger.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
-        public AccountController(IUserService userService, IOptions<AppSettings> appSettings)
+        public AccountsController(IUserService userService, IOptions<AppSettings> appSettings)
         {
             _userService = userService;
             _appSettings = appSettings.Value;
