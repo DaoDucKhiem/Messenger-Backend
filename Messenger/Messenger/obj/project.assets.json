@@ -8919,19 +8919,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Oscar\\.nuget\\packages\\": {}
+    "C:\\Users\\DDKhiem\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Oscar\\OneDrive\\Documents\\NetCore\\Messenger-Backend\\Messenger\\Messenger\\Messenger.csproj",
+      "projectUniqueName": "C:\\Users\\DDKhiem\\Documents\\netCore\\Messenger-Backend\\Messenger\\Messenger\\Messenger.csproj",
       "projectName": "Messenger",
-      "projectPath": "C:\\Users\\Oscar\\OneDrive\\Documents\\NetCore\\Messenger-Backend\\Messenger\\Messenger\\Messenger.csproj",
-      "packagesPath": "C:\\Users\\Oscar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Oscar\\OneDrive\\Documents\\NetCore\\Messenger-Backend\\Messenger\\Messenger\\obj\\",
+      "projectPath": "C:\\Users\\DDKhiem\\Documents\\netCore\\Messenger-Backend\\Messenger\\Messenger\\Messenger.csproj",
+      "packagesPath": "C:\\Users\\DDKhiem\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\DDKhiem\\Documents\\netCore\\Messenger-Backend\\Messenger\\Messenger\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Oscar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DDKhiem\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9012,7 +9012,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

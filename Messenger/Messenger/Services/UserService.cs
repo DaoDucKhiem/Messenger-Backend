@@ -1,6 +1,9 @@
 ﻿using Messenger.Entities;
 using Messenger.Helpers;
 using Messenger.Models.Users;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,7 @@ namespace Messenger.Services
     public interface IUserService
     {
         User Authenticate(string email, string password);
-        IEnumerable<User> GetAll();
+        IEnumerable<UserInfoModel> GetAll();
         User GetUserById(Guid id);
         User CreateUser(RegisterModel model);
     }
@@ -47,9 +50,9 @@ namespace Messenger.Services
         /*
          * trả về tất cả user có trong bảng
          */
-        public IEnumerable<User> GetAll()
+        public IEnumerable<UserInfoModel> GetAll()
         {
-            return _context.Users;
+            return View(await _context.Users.FromSql($"call storedProcedureName()").ToListAsync<UserInfoModel);
         }
 
         /*
@@ -123,7 +126,7 @@ namespace Messenger.Services
             // băm sử dụng thuật toán PBKDF2
             // thêm một chuỗi byte ngẫu nhiên vào mật khẩu của người dùng tránh trường hợp trùng email password
             using var hmac = new System.Security.Cryptography.HMACSHA512();
-            passwordSalt = hmac.Key; 
+            passwordSalt = hmac.Key;
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         }
     }
