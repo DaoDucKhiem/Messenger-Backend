@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 using Messenger.Helpers;
 using Messenger.Entities;
@@ -37,7 +38,15 @@ namespace Messenger.Controllers
         [HttpGet]
         public IActionResult GetUsers()
         {
-            return Ok(_userService.GetAll());
+            var users = _userService.GetAll();
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<User, UserInfoModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+
+            var model = mapper.Map<IList<UserInfoModel>>(users);
+            return Ok(model);
         }
 
         //GET: api/Users/id

@@ -29,13 +29,6 @@ namespace Messenger.Controllers
             _appSettings = appSettings.Value;
         }
 
-        //GET: api/Users
-        [HttpGet]
-        public IActionResult GetUsers()
-        {
-            return Ok(_userService.GetAll());
-        }
-
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -47,27 +40,7 @@ namespace Messenger.Controllers
 
             if (user == null)
                 return BadRequest(new { message = "Email hoặc mật khẩu không chính xác!" });
-
-
-            // tạo token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                   new Claim("userId", user.Id.ToString()),
-                   new Claim("email", user.Email),
-                   new Claim("avatar", user.ImageUrl),
-                   new Claim("fullName", user.FullName),
-                }),
-                Issuer = _appSettings.IsUser,
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+            var token = _userService.GenerateJwtStringee(_appSettings.IsUser, _appSettings.Secret, user.Id.ToString(), user.Email, user.ImageUrl, user.FullName);
 
             // return basic user info and authentication token
             return Ok(new
@@ -77,10 +50,9 @@ namespace Messenger.Controllers
                 user.FullName,
                 user.Phone,
                 user.ImageUrl,
-                Token = tokenString
+                Token = token
             });
         }
-
 
         [AllowAnonymous]
         [HttpPost("register")]
@@ -89,8 +61,12 @@ namespace Messenger.Controllers
             try
             {
                 //tạo account
-                _userService.CreateUser(model);
-                return Ok();
+                var user = _userService.CreateUser(model);
+                var token = _userService.GenerateJwtStringee(_appSettings.IsUser, _appSettings.Secret, user.Id.ToString(), user.Email, user.ImageUrl, user.FullName);
+                return Ok(new
+                {
+                    Token = token
+                });
             }
             catch (AppException ex)
             {

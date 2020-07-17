@@ -3,10 +3,14 @@ using Messenger.Helpers;
 using Messenger.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 
 namespace Messenger.Services
 {
@@ -16,6 +20,7 @@ namespace Messenger.Services
         IEnumerable<User> GetAll();
         User GetUserById(Guid id);
         User CreateUser(RegisterModel model);
+        string GenerateJwtStringee(string keyID, string keySecret, string id, string email, string avatar, string fullName);
     }
 
     public class UserService : IUserService
@@ -63,10 +68,46 @@ namespace Messenger.Services
             return _context.Users.Find(id);
         }
 
-        /*
-         * hàm xác thực password
-         * trả về true nếu đúng, false nếu sai
-         */
+        /// <summary>
+        /// Hàm tạo token
+        /// </summary>
+        /// <param name="keyID">Key ID stringee</param>
+        /// <param name="keySecret">key Secret của stringee</param>
+        /// <param name="id">id user</param>
+        /// <param name="email">email user</param>
+        /// <param name="avatar">avatar user</param>
+        /// <param name="fullName">username</param>
+        /// <returns></returns>
+        public string GenerateJwtStringee(string keyID, string keySecret, string id, string email, string avatar, string fullName)
+        {
+            // tạo token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(keySecret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                   new Claim("userId", id),
+                   new Claim("email", email),
+                   new Claim("avatar", avatar),
+                   new Claim("fullName", fullName),
+                }),
+                Issuer = keyID,
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        /// <summary>
+        /// hàm xác thực password
+        /// </summary>
+        /// <param name="password">password người dùng nhập</param>
+        /// <param name="passwordHash">password băm</param>
+        /// <param name="passwordSalt">password trọng số vài byte ban đầu</param>
+        /// <returns>Đào Đức Khiêm</returns>
         private static bool VerifyPassword(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
