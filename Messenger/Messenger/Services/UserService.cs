@@ -140,6 +140,9 @@ namespace Messenger.Services
             if (_context.Users.Any(x => x.Email == user.Email))
                 throw new AppException("Email \"" + user.Email + "\" đã tồn tại");
 
+            if (_context.Users.Any(x => x.FullName == user.FullName))
+                throw new AppException("Tên \"" + user.FullName + "\" đã tồn tại");
+
             CreatePasswordHash(user.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             var _user = new User

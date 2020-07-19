@@ -472,3 +472,5 @@ C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\
 C:\Users\DDKhiem\Documents\netCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\AutoMapper.dll
 C:\Users\DDKhiem\Documents\netCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\DDKhiem\Documents\netCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
