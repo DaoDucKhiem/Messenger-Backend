@@ -52,7 +52,7 @@ namespace Messenger.Controllers
         //GET: api/Users/id
         [Route("{id}")]
         [HttpGet]
-        public ActionResult<User> GetUser(Guid id)
+        public IActionResult GetUser(Guid id)
         {
             var user = _userService.GetUserById(id);
 
@@ -60,8 +60,17 @@ namespace Messenger.Controllers
             {
                 return NotFound();
             }
-
-            return user;
+            else
+            {
+                return Ok(new
+                {
+                    id = user.Id,
+                    email = user.Email,
+                    fullName = user.FullName,
+                    phone = user.Phone,
+                    imageUrl = user.ImageUrl
+                });
+            }
         }
 
     }
