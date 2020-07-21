@@ -73,5 +73,21 @@ namespace Messenger.Controllers
             }
         }
 
+        //GET: api/Users/getSomeUser
+        [Route("/")]
+        [HttpGet]
+        public IActionResult GetUsers([FromQuery] string name)
+        {
+            var users = _userService.GetUserByName(name);
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<User, UserInfoModel>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+
+            var model = mapper.Map<IList<UserInfoModel>>(users);
+            return Ok(model);
+        }
     }
 }

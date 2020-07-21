@@ -19,7 +19,8 @@ namespace Messenger.Services
         User Authenticate(string email, string password);
         IEnumerable<User> GetAll();
         User GetUserById(Guid id);
-        User CreateUser(RegisterModel model);
+        IEnumerable<User> GetUserByName(string name);
+       User CreateUser(RegisterModel model);
         string GenerateJwtStringee(string keyID, string keySecret, string id, string email, string avatar, string fullName);
     }
 
@@ -162,6 +163,12 @@ namespace Messenger.Services
             return _user;
         }
 
+        /// <summary>
+        /// Băm password
+        /// </summary>
+        /// <param name="password">password dạng string</param>
+        /// <param name="passwordHash">password được băm</param>
+        /// <param name="passwordSalt">key để giải mã</param>
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
@@ -172,6 +179,17 @@ namespace Messenger.Services
             using var hmac = new System.Security.Cryptography.HMACSHA512();
             passwordSalt = hmac.Key;
             passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        }
+
+        /// <summary>
+        /// lấy người dùng theo tên truyền vào, dùng khi search trong danh bạ
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public IEnumerable<User> GetUserByName(string name)
+        {
+            var _query = "SELECT * FROM messenger.users u WHERE u.FullName LIKE '%" + name + "%'";
+            return _context.Users.FromSqlRaw(_query);
         }
     }
 }
