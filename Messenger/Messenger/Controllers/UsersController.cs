@@ -38,7 +38,8 @@ namespace Messenger.Controllers
         [HttpGet]
         public IActionResult GetUsers()
         {
-            var users = _userService.GetAll();
+            var amount = 30;
+            var users = _userService.GetAll(amount);
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<User, UserInfoModel>();
             });
@@ -74,8 +75,7 @@ namespace Messenger.Controllers
         }
 
         //GET: api/Users/getSomeUser
-        [Route("/")]
-        [HttpGet]
+        [HttpGet("search")]
         public IActionResult GetUsers([FromQuery] string name)
         {
             var users = _userService.GetUserByName(name);

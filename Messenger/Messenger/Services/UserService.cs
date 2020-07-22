@@ -17,10 +17,10 @@ namespace Messenger.Services
     public interface IUserService
     {
         User Authenticate(string email, string password);
-        IEnumerable<User> GetAll();
+        IEnumerable<User> GetAll(int amount);
         User GetUserById(Guid id);
         IEnumerable<User> GetUserByName(string name);
-       User CreateUser(RegisterModel model);
+        User CreateUser(RegisterModel model);
         string GenerateJwtStringee(string keyID, string keySecret, string id, string email, string avatar, string fullName);
     }
 
@@ -56,9 +56,9 @@ namespace Messenger.Services
         /*
          * trả về tất cả user có trong bảng
          */
-        public IEnumerable<User> GetAll()
+        public IEnumerable<User> GetAll(int amount)
         {
-            return _context.Users.ToList();
+            return _context.Users.Take(amount).ToList() ;
         }
 
         /*
@@ -188,8 +188,7 @@ namespace Messenger.Services
         /// <returns></returns>
         public IEnumerable<User> GetUserByName(string name)
         {
-            var _query = "SELECT * FROM messenger.users u WHERE u.FullName LIKE '%" + name + "%'";
-            return _context.Users.FromSqlRaw(_query);
+            return _context.Users.Where(data => data.FullName.Contains(name)).ToList();
         }
     }
 }
