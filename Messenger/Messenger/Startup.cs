@@ -38,6 +38,7 @@ namespace Messenger
 
             services.AddCors();
             services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             // configure strongly typed settings objects
@@ -83,6 +84,8 @@ namespace Messenger
 
             //cấu hình DI cho các service
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IFileService, FileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
