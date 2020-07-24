@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Messenger.Services
 {
@@ -22,6 +23,8 @@ namespace Messenger.Services
         IEnumerable<User> GetUserByName(string name);
         User CreateUser(RegisterModel model);
         string GenerateJwtStringee(string keyID, string keySecret, string id, string email, string avatar, string fullName);
+
+        Task<User> UpdateUserAsync(UpdateProfileModel model);
     }
 
     public class UserService : IUserService
@@ -190,5 +193,51 @@ namespace Messenger.Services
         {
             return _context.Users.Where(data => data.FullName.Contains(name)).ToList();
         }
+
+        public async Task<User> UpdateUserAsync(UpdateProfileModel model)
+        {
+
+            if (model == null)
+                throw new AppException("Không có dữ liệu update");
+
+            var user = _context.Users.FirstOrDefault(u => u.Id == model.Id);
+
+            if(user == null)
+            {
+                throw new AppException("Người dùng không tồn tại");
+            }
+            else
+            {
+                if(user.Email != model.Email)
+                {
+                    if (_context.Users.Any(x => x.Email == model.Email))
+                        throw new AppException("Email \"" + model.Email + "\" đã tồn tại");
+                }
+
+                if(user.FullName != model.FullName)
+                {
+                    if (_context.Users.Any(x => x.FullName == model.FullName))
+                        throw new AppException("Tên \"" + model.FullName + "\" đã tồn tại");
+                }
+            }
+
+            user.Email = model.Email;
+            user.FullName = model.FullName;
+            user.ImageUrl = model.ImageUrl;
+            user.Phone = model.Phone;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new AppException("Cập nhật thất bại!");
+            }
+            return user;
+        }
+
     }
 }

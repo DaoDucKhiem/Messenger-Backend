@@ -16,7 +16,6 @@ using Microsoft.IdentityModel.Tokens;
 namespace Messenger.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -75,34 +74,30 @@ namespace Messenger.Controllers
             }
         }
 
-        // PUT: api/Users/5
+        //PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUser(Guid id, User user)
-        //{
-        //    if (id != user.Id)
-        //    {
-        //        return BadRequest();ext.Entry(user).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-        //    }
+        [HttpPut("updateProfile")]
+        public async Task<IActionResult> PutUserAsync([FromBody] UpdateProfileModel _user)
+        {
+            try
+            {
+                var user = await _userService.UpdateUserAsync(_user);
+                var token = _userService.GenerateJwtStringee(_appSettings.IsUser, _appSettings.Secret, user.Id.ToString(), user.Email, user.ImageUrl, user.FullName);
+                return Ok(new
+                {
+                    user.Id,
+                    user.Email,
+                    user.FullName,
+                    user.Phone,
+                    user.ImageUrl,
+                    token
+                });
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

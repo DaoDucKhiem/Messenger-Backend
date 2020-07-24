@@ -9,10 +9,12 @@ using Messenger.Entities;
 using Messenger.Helpers;
 using Messenger.Models.Files;
 using Messenger.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Messenger.Controllers
 {
     [Route("api/[controller]")]
+    //[Authorize]
     [ApiController]
     public class FilesController : ControllerBase
     {
