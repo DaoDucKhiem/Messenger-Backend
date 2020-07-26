@@ -10,13 +10,19 @@ namespace Messenger.Services
 {
     public interface IFileService
     {
+        //thêm file vào database
         Task<File> InsertFileAsync(FileModel model);
+
+        //lấy file theo số lượng
         IEnumerable<File> getFile(int amount, string convId);
 
+        //lấy tất cả các file của cuộc trò chuyện
         IEnumerable<File> getAllFile(string convId);
 
+        //lấy một số hình ảnh của cuộc trò chuyện
         IEnumerable<File> getImage(int amount, string convId);
 
+        //lấy tất cả các ảnh của cuộc trò chuyện
         IEnumerable<File> getAllImage(string convId);
     }
 

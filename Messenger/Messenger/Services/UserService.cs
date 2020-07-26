@@ -17,14 +17,28 @@ namespace Messenger.Services
 {
     public interface IUserService
     {
+        //xử lý xác thực khi đăng nhập
         User Authenticate(string email, string password);
+
+        //xử lý lấy tất cả người dùng trên hệ thống
         IEnumerable<User> GetAll(int amount);
+
+        //lấy thông tin người dùng theo id
         User GetUserById(Guid id);
+
+        //tìm kiếm người dùng theo tên
         IEnumerable<User> GetUserByName(string name);
+
+        //đăng ký tài khoản
         User CreateUser(RegisterModel model);
+
+        //tạo token
         string GenerateJwtStringee(string keyID, string keySecret, string id, string email, string avatar, string fullName);
 
+        //cập nhật profile
         Task<User> UpdateUserAsync(UpdateProfileModel model);
+
+        //cập nhật password
         Task<string> UpdateUserPasswordAsync(UpdatePasswordModel model);
     }
 
@@ -37,6 +51,16 @@ namespace Messenger.Services
             _context = context;
         }
 
+        /// <summary>
+        /// service để xác thực người dùng khi đăng nhập.
+        /// </summary>
+        /// <param name="email">email client</param>
+        /// <param name="password">password client</param>
+        /// <returns>null nếu email rỗng</returns>
+        /// <returns>null nếu chưa tồn tại tài khoản</returns>
+        /// <returns>null nếu password không chính xác</returns>
+        /// <returns>user nếu xác thực thành công</returns>
+        /// create by Đào Đức Khiêm
         public User Authenticate(string email, string password)
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -53,21 +77,26 @@ namespace Messenger.Services
             if (!VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
-            //nếu email và mật khẩu đúng thì return true
+            //nếu email và mật khẩu đúng thì return user
             return user;
         }
 
-        /*
-         * trả về tất cả user có trong bảng
-         */
+        /// <summary>
+        /// trả về tất cả các user có trong database
+        /// </summary>
+        /// <param name="amount">truyền vào số lượng user cần lấy</param>
+        /// <returns>danh sách user</returns>
         public IEnumerable<User> GetAll(int amount)
         {
             return _context.Users.Take(amount).ToList() ;
         }
 
-        /*
-         * trả về user nếu trùng id
-         */
+        /// <summary>
+        /// lấy người dùng theo id
+        /// </summary>
+        /// <param name="id">id truyền từ client</param>
+        /// <returns>user nếu tồn tại</returns>
+        /// <returns>null nếu không tồn tại</returns>
         public User GetUserById(Guid id)
         {
             return _context.Users.Find(id);
@@ -195,6 +224,12 @@ namespace Messenger.Services
             return _context.Users.Where(data => data.FullName.Contains(name)).ToList();
         }
 
+        /// <summary>
+        /// cập nhật thông tin của người dùng
+        /// </summary>
+        /// <param name="model">model client truyền lên khi gọi api</param>
+        /// <returns>null nếu model không có dữ liệu, không tồn tại tài khoản</returns>
+        /// <returns>user sau update nếu thành công</returns>
         public async Task<User> UpdateUserAsync(UpdateProfileModel model)
         {
 
@@ -211,12 +246,14 @@ namespace Messenger.Services
             {
                 if(user.Email != model.Email)
                 {
+                    //kiểm tra xem đã có tài khoản nào dùng email này chưa
                     if (_context.Users.Any(x => x.Email == model.Email))
                         throw new AppException("Email \"" + model.Email + "\" đã tồn tại");
                 }
 
                 if(user.FullName != model.FullName)
                 {
+                    //kiểm tra xem đã có tài khoản nào dùng tên này chưa
                     if (_context.Users.Any(x => x.FullName == model.FullName))
                         throw new AppException("Tên \"" + model.FullName + "\" đã tồn tại");
                 }
@@ -240,6 +277,11 @@ namespace Messenger.Services
             return user;
         }
 
+        /// <summary>
+        /// cập nhật password
+        /// </summary>
+        /// <param name="model">UpdatePasswordModel</param>
+        /// <returns>null nếu model rỗng, người dùng không tồn tại</returns>
         public async Task<string> UpdateUserPasswordAsync(UpdatePasswordModel model)
         {
             if (model == null)
@@ -253,6 +295,7 @@ namespace Messenger.Services
             }
             else
             {
+                //xác thực mật khẩu
                 var checkPass = VerifyPassword(model.OldPass, user.PasswordHash, user.PasswordSalt);
                 if (!checkPass)
                 {
@@ -260,21 +303,24 @@ namespace Messenger.Services
                 }
             }
 
+            //tạo mật khẩu mới
             CreatePasswordHash(model.NewPass, out byte[] passwordHash, out byte[] passwordSalt);
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
+            //cập nhật mật khẩu trong database
             _context.Entry(user).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
+                //nếu cập nhật thành công
+                return "Cập nhật mật khẩu thành công";
             }
             catch (DbUpdateConcurrencyException)
             {
                 throw new AppException("Cập nhật mật khẩu thất bại!");
             }
-            return "Cập nhật mật khẩu thành công";
         }
     }
 }

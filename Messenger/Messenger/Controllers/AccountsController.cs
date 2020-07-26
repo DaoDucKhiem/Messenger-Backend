@@ -28,9 +28,13 @@ namespace Messenger.Controllers
             _appSettings = appSettings.Value;
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// api xác thực khi người dùng đăng nhập
+        /// </summary>
+        /// <param name="model">model client truyền lên</param>
+        /// <returns>user và token nếu thành công</returns>
+        /// <returns>message nếu thất bại</returns>
+        /// created by Đào Đức Khiêm
         [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Login([FromBody] AuthenticateModel model)
@@ -53,6 +57,13 @@ namespace Messenger.Controllers
             });
         }
 
+        /// <summary>
+        /// đăng ký tài khoản cho người dùng
+        /// </summary>
+        /// <param name="model">model client truyền lên</param>
+        /// <returns>token nếu thành công</returns>
+        /// <returns>message nếu thất bại</returns>
+        /// created by Đào Đức Khiêm
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterModel model)
@@ -74,9 +85,12 @@ namespace Messenger.Controllers
             }
         }
 
-        //PUT: api/Users/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// cập nhật user
+        /// </summary>
+        /// <param name="_user"></param>
+        /// <returns>user + token</returns>
+        /// <returns>message nếu thất bại</returns>
         [HttpPut("updateProfile")]
         public async Task<IActionResult> PutUserAsync([FromBody] UpdateProfileModel _user)
         {
@@ -100,6 +114,11 @@ namespace Messenger.Controllers
             }
         }
 
+        /// <summary>
+        /// cập nhật password
+        /// </summary>
+        /// <param name="_user">thông tin mật khẩu</param>
+        /// <returns>message</returns>
         [HttpPut("updatePassword")]
         public async Task<IActionResult> PutUserPasswordAsync([FromBody] UpdatePasswordModel _user)
         {

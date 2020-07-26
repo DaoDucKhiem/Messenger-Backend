@@ -27,40 +27,59 @@ namespace Messenger.Controllers
             _fileService = fileService;
         }
 
-        // GET: api/Files
+        /// <summary>
+        /// api lấy tất cả các file của cuộc trò chuyện
+        /// </summary>
+        /// <param name="convId">id của cuộc trò chuyện</param>
+        /// <returns>danh sách tất cả các file trong cuộc trò chuyện đó</returns>
         [HttpGet("getAllFile")]
         public ActionResult<IEnumerable<FileModel>> GetFiles([FromQuery] string convId)
         {
             return Ok(_fileService.getAllFile(convId));
         }
 
-        // GET: api/Files/5
+        /// <summary>
+        /// api để lấy một số file của cuộc trò chuyện
+        /// </summary>
+        /// <param name="convId">id của cuộc trò chuyện</param>
+        /// <returns>danh sách một số file định dạng model theo định dạng của tin nhắn</returns>
+        /// create by Đào Đức Khiêm
         [HttpGet("getFiles")]
         public ActionResult<FileModel> GetFile([FromQuery] string convId)
         {
-            var amount = 2;
+            var amount = 2; //số lượng file lấy
             return Ok(_fileService.getFile(amount, convId));
         }
 
 
-        // GET: api/Files
+        /// <summary>
+        /// api để lấy tất cả các ảnh của cuộc trò chuyện
+        /// </summary>
+        /// <param name="convId">id của cuộc trò chuyện</param>
+        /// <returns>danh sách các file dưới dạng tin nhắn</returns>
+        /// create by Đào Đức Khiêm
         [HttpGet("getAllImage")]
         public ActionResult<IEnumerable<ImageModel>> GetImages([FromQuery] string convId)
         {
             return Ok(_fileService.getAllImage(convId));
         }
 
-        // GET: api/Files/5
+        /// <summary>
+        /// api lấy một số ảnh của cuộc trò chuyện
+        /// </summary>
+        /// <param name="convId">id của cuộc trò chuyện</param>
+        /// <returns>danh sách các ảnh được định dạng theo tin nhắn</returns>
+        /// create by Đào Đức Khiêm
         [HttpGet("getImages")]
         public ActionResult<ImageModel> GetImage([FromQuery] string convId)
         {
-            var amount = 3;
+            var amount = 3; //số lượng ảnh cần lấy
             return Ok(_fileService.getImage(amount, convId));
         }
 
 
 
-
+        //api này không dùng đến
         // PUT: api/Files/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -93,9 +112,12 @@ namespace Messenger.Controllers
             return NoContent();
         }
 
-        // POST: api/Files
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Thực hiện insert file hoặc ảnh vào database
+        /// </summary>
+        /// <param name="file">file model gửi từ client lên</param>
+        /// <returns>file</returns>
+        /// create by Đào Đức Khiêm
         [HttpPost]
         public ActionResult<File> PostFile(FileModel file)
         {
@@ -104,6 +126,7 @@ namespace Messenger.Controllers
             return Ok(_file);
         }
 
+        //api này chưa dùng đến
         // DELETE: api/Files/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<File>> DeleteFile(Guid id)

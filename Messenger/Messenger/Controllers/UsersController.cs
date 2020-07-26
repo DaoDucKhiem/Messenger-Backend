@@ -34,7 +34,10 @@ namespace Messenger.Controllers
             _appSettings = appSettings.Value;
         }
 
-        //GET: api/Users
+        /// <summary>
+        /// api lấy danh sách user theo số lượng
+        /// </summary>
+        /// <returns></returns>
         [Route("")]
         [HttpGet]
         public IActionResult GetUsers()
@@ -51,7 +54,11 @@ namespace Messenger.Controllers
             return Ok(model);
         }
 
-        //GET: api/Users/id
+        /// <summary>
+        /// api lấy thông tin user theo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("{id}")]
         [HttpGet]
         public IActionResult GetUser(Guid id)
@@ -75,7 +82,11 @@ namespace Messenger.Controllers
             }
         }
 
-        //GET: api/Users/getSomeUser
+        /// <summary>
+        /// api lấy user theo tên
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet("search")]
         public IActionResult GetUsers([FromQuery] string name)
         {
