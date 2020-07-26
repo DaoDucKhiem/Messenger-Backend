@@ -25,6 +25,7 @@ namespace Messenger.Services
         string GenerateJwtStringee(string keyID, string keySecret, string id, string email, string avatar, string fullName);
 
         Task<User> UpdateUserAsync(UpdateProfileModel model);
+        Task<string> UpdateUserPasswordAsync(UpdatePasswordModel model);
     }
 
     public class UserService : IUserService
@@ -239,5 +240,41 @@ namespace Messenger.Services
             return user;
         }
 
+        public async Task<string> UpdateUserPasswordAsync(UpdatePasswordModel model)
+        {
+            if (model == null)
+                throw new AppException("Không có dữ liệu update");
+
+            var user = _context.Users.FirstOrDefault(u => u.Id == model.Id);
+
+            if (user == null)
+            {
+                throw new AppException("Người dùng không tồn tại");
+            }
+            else
+            {
+                var checkPass = VerifyPassword(model.OldPass, user.PasswordHash, user.PasswordSalt);
+                if (!checkPass)
+                {
+                        throw new AppException("Mật khẩu cũ không chính xác!");
+                }
+            }
+
+            CreatePasswordHash(model.NewPass, out byte[] passwordHash, out byte[] passwordSalt);
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new AppException("Cập nhật mật khẩu thất bại!");
+            }
+            return "Cập nhật mật khẩu thành công";
+        }
     }
 }

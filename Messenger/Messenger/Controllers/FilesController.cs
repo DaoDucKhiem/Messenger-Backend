@@ -38,7 +38,7 @@ namespace Messenger.Controllers
         [HttpGet("getFiles")]
         public ActionResult<FileModel> GetFile([FromQuery] string convId)
         {
-            var amount = 3;
+            var amount = 2;
             return Ok(_fileService.getFile(amount, convId));
         }
 
@@ -54,7 +54,7 @@ namespace Messenger.Controllers
         [HttpGet("getImages")]
         public ActionResult<ImageModel> GetImage([FromQuery] string convId)
         {
-            var amount = 6;
+            var amount = 3;
             return Ok(_fileService.getImage(amount, convId));
         }
 

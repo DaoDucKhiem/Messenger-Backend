@@ -99,5 +99,22 @@ namespace Messenger.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPut("updatePassword")]
+        public async Task<IActionResult> PutUserPasswordAsync([FromBody] UpdatePasswordModel _user)
+        {
+            try
+            {
+                var result = await _userService.UpdateUserPasswordAsync(_user);
+                return Ok(new
+                {
+                    result,
+                });
+            }
+            catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

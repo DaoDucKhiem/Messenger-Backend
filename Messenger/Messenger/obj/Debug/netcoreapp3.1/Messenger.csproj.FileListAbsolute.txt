@@ -477,3 +477,6 @@ C:\Users\DDKhiem\Documents\netCore\Messenger-Backend\Messenger\Messenger\bin\Deb
 C:\Users\DDKhiem\Documents\netCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\DDKhiem\Documents\netCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\DDKhiem\Documents\netCore\Messenger-Backend\Messenger\Messenger\obj\Debug\netcoreapp3.1\Messenger.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Oscar\OneDrive\Documents\NetCore\Messenger-Backend\Messenger\Messenger\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
